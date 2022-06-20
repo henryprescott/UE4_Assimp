@@ -10,14 +10,13 @@ public class UE_Assimp : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				// ... add public include paths required here ...
+				
 			}
 			);
-				
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				// ... add other private include paths required here ...
+				
 			}
 			);
 			
@@ -26,8 +25,8 @@ public class UE_Assimp : ModuleRules
 			new string[]
 			{
 				"Core",
-				"UE_AssimpLibrary",
-				
+				"ProceduralMeshComponent",
+				"UE_AssimpLibrary",				
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -39,7 +38,9 @@ public class UE_Assimp : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore","ProceduralMeshComponent","Projects"
+				"SlateCore",
+				"ProceduralMeshComponent",
+				"Projects",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

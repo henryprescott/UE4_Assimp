@@ -2,6 +2,7 @@
 
 #include "UE_Assimp.h"
 #include "Core.h"
+
 #include "Modules/ModuleManager.h"
 #include "assimp/Importer.hpp"     // C++ importer interface
 #include "assimp/scene.h"          // Output data structure
