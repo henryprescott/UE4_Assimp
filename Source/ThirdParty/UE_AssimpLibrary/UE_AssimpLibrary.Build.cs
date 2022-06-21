@@ -43,24 +43,36 @@ public class UE_AssimpLibrary : ModuleRules
 
 			string BinaryFolder=BinFolder(Target);
 			Directory.CreateDirectory(BinaryFolder);
-			string AssimpDll = Path.Combine(ModuleDirectory, "assimp", "build\\x64\\bin", "Release", "assimp-vc141-mt.dll");
+
+			string AssimpDll = Path.Combine(ModuleDirectory, "assimp\\build\\x64\\bin\\Release\\assimp-vc141-mt.dll");
 			string BinPath =Path.Combine(ModuleDirectory, BinaryFolder, "assimp-vc141-mt.dll");
 			
+			System.Console.WriteLine("------- AssimpDll path : {0}", AssimpDll);
+
+			System.Console.WriteLine("------- BinPath path : {0}", BinPath);
+
+			System.Console.WriteLine("------- Include path 1: {0}", Path.Combine(ModuleDirectory,"assimp" , "include"));
+
+			string ExtraInclude = Path.Combine(ModuleDirectory, "assimp\\build\\x64\\include");
+
+			System.Console.WriteLine("------- Include path 2: {0}", ExtraInclude);
+
 		 	CopyFile(AssimpDll,BinPath);
 			// Ensure that the DLL is staged along with the executable
 
 			// VC141
 			// Add the import library
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory,"assimp" ,"build\\x64\\bin\\Release\\lib", "Release", "assimp-vc141-mt.lib"));
-			RuntimeDependencies.Add("$(TargetOutputDir)/assimp-vc141-mt.dll", Path.Combine(ModuleDirectory,"assimp" , "build\\x64\\bin","Release","assimp-vc141-mt.dll"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "assimp\\build\\x64\\lib\\Release\\assimp-vc141-mt.lib"));
+			RuntimeDependencies.Add("$(TargetOutputDir)/assimp-vc141-mt.dll", AssimpDll);
 
-			PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"assimp" , "include"));
-			// System.Console.WriteLine("------- Include path 1: {0}", Path.Combine(ModuleDirectory,"assimp" , "include"));
-			PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"assimp" , "build\\x64\\bin\\Release\\include"));
-			// System.Console.WriteLine("------- Include path 2: {0}", Path.Combine(ModuleDirectory,"assimp" , "build\\x64\\bin\\Release\\include"));
+			
+			PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"assimp\\include"));
+
+			
+			PublicIncludePaths.Add(ExtraInclude);
 
 			// Delay-load the DLL, so we can load it from the right place first
-			PublicDelayLoadDLLs.Add(Path.Combine(ModuleDirectory,"assimp" , "build\\x64\\bin","Release","assimp-vc141-mt.dll"));
+			PublicDelayLoadDLLs.Add(BinPath);
 
 			
 		
