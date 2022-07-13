@@ -10,6 +10,4 @@ del "..\\..\\..\\..\\Binaries\\Win64\\assimp-vc141-mt.dll"
 
 xcopy ".\\build\\x64\\bin\\Release\\assimp-vc141-mt.dll" "..\\..\\..\\..\\Binaries\\Win64\\assimp-vc141-mt.dll"* /r /y
 
-rd ".\\build" /s /q
-
 PAUSE
