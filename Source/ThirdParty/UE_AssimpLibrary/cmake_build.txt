@@ -5,4 +5,11 @@ SET BINARIES_DIR="./build/x64"
 cmake . -G "%GENERATOR%" -A x64 -S %SOURCE_DIR% -B %BINARIES_DIR%
 cmake --build %BINARIES_DIR% --config release
 
+del "..\\..\\..\\..\\..\\..\\Binaries\\Win64\\assimp-vc141-mt.dll"
+del "..\\..\\..\\..\\Binaries\\Win64\\assimp-vc141-mt.dll"
+
+xcopy ".\\build\\x64\\bin\\Release\\assimp-vc141-mt.dll" "..\\..\\..\\..\\Binaries\\Win64\\assimp-vc141-mt.dll"* /r /y
+
+rd ".\\build" /s /q
+
 PAUSE
