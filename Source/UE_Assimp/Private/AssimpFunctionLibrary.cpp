@@ -5,6 +5,7 @@
 #include "AIScene.h"
 #include "assimp/cimport.h"
 #include "assimp/Importer.hpp"
+#include "assimp/Exporter.hpp"
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 
@@ -316,6 +317,16 @@ if(NumOfThreads==0)
  				Scenes.Add(Object);
  			
 		}
+ 	}
+ }
+
+ void UAssimpFunctionLibrary::ExportScenes(TArray<FString> InFilenames, UObject* ParentObject,
+	 TArray<UAIScene*>& Scenes)
+ {
+ 	for( auto scene : Scenes)
+ 	{
+ 		Assimp::Exporter mAiExporter;
+    	mAiExporter.Export(scene, "obj", "spiderExport.obj");
  	}
  }
 
