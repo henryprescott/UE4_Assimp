@@ -4,6 +4,7 @@
 #include "AssimpFunctionLibrary.h"
 #include "AIScene.h"
 #include "assimp/cimport.h"
+#include "assimp/Exporter.hpp"
 #include "assimp/Importer.hpp"
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
@@ -317,6 +318,105 @@ if(NumOfThreads==0)
  			
 		}
  	}
+ }
+
+FString UAssimpFunctionLibrary::ExportMesh(FString Filename, TArray<FVector> Vertices, TArray<int32> Triangles, TArray<FVector> Normals, TArray<FVector2D> UVs)
+ {
+	aiMesh *mesh = new aiMesh();
+ 	mesh->mName = aiString("Implant");
+	mesh->mNumVertices = Vertices.Num();
+ 	mesh->mVertices = new aiVector3D[mesh->mNumVertices];
+ 	mesh->mNumFaces = Triangles.Num()/3;
+ 	aiFace *faces = new aiFace[mesh->mNumFaces];
+ 	mesh->mNormals = new aiVector3D[Normals.Num()];
+ 	mesh->mTextureCoords[0] = new aiVector3D[UVs.Num()];
+
+ 	for(int i = 0; i < Vertices.Num(); i++)
+ 	{
+ 		mesh->mVertices[i] = aiVector3D(Vertices[i].X, Vertices[i].Y, Vertices[i].Z);
+ 	}
+
+ 	int faceIndex = 0;
+ 	for(int j = 0; j < Triangles.Num() - 2;)
+ 	{
+ 		faces[faceIndex].mIndices = new unsigned int[3];
+
+ 		faces[faceIndex].mIndices[0] = Triangles[j];
+ 		faces[faceIndex].mIndices[1] = Triangles[j+1];
+ 		faces[faceIndex].mIndices[2] = Triangles[j+2];
+ 		
+ 		faces[faceIndex].mNumIndices = 3;
+ 		faceIndex++;
+ 		j+=3;
+ 	}
+
+ 	for(int i = 0; i < Normals.Num(); i++)
+ 	{
+ 		mesh->mNormals[i] = aiVector3D(Normals[i].X, Normals[i].Y, Normals[i].Z);
+ 	}
+
+ 	for(int i = 0; i < UVs.Num(); i++)
+ 	{
+ 		mesh->mTextureCoords[0][i] = aiVector3D(UVs[i].X, UVs[i].Y, 0);
+ 	}
+	
+	mesh->mFaces = faces;
+	mesh->mPrimitiveTypes = aiPrimitiveType_TRIANGLE; // workaround, issue #3778
+
+	// a valid material is needed, even if its empty
+
+	aiMaterial *material = new aiMaterial();            // deleted: Version.cpp:155
+
+	// a root node with the mesh list is needed; if you have multiple meshes, this must match.
+
+	aiNode *root = new aiNode();                        // deleted: Version.cpp:143
+	root->mNumMeshes = 1;
+	root->mMeshes = new unsigned [1] { 0 };              // deleted: scene.cpp:77
+
+	// pack mesh(es), material, and root node into a new minimal aiScene
+
+	aiScene *out = new aiScene();                       // deleted: by us after use
+	out->mNumMeshes = 1;
+	out->mMeshes = new aiMesh * [1] { mesh };            // deleted: Version.cpp:151
+	out->mNumMaterials = 1;
+	out->mMaterials = new aiMaterial * [1] { material }; // deleted: Version.cpp:158
+	out->mRootNode = root; 
+	out->mMetaData = new aiMetadata(); // workaround, issue #3781
+
+	// and we're good to go. do whatever:
+
+    Assimp::Exporter exporter;
+	Assimp::Importer importer;
+
+ 	try
+	{
+		const aiScene *sc = importer.ReadFile("C:/Users/Henry/Documents/Git/POC/Plugins/UE4_Assimp/Source/ThirdParty/UE_AssimpLibrary/assimp/test/models/OBJ/box.obj", aiProcess_ValidateDataStructure);
+ 		
+		aiScene *exportScene;
+		aiCopyScene(sc, &exportScene);
+
+ 		exportScene->mMeshes = new aiMesh * [1] { mesh };
+ 		
+		aiNode *oldroot = exportScene->mRootNode;
+		exportScene->mRootNode = new aiNode();
+		exportScene->mRootNode->addChildren(1, &oldroot);
+
+ 		FString AbsoluteFilePath = "C:/Users/Henry/Documents/Git/POC/Binaries/Win64/" + Filename + ".stl";
+ 		
+		exporter.Export(exportScene, "stl", TCHAR_TO_ANSI(*AbsoluteFilePath));// != AI_SUCCESS;		
+	}
+	catch (...)
+	{
+		return FString(exporter.GetErrorString());
+	}
+	
+		 
+
+	// deleting the scene will also take care of the vertices, faces, meshes, materials, nodes, etc.
+
+	delete out;
+
+ 	return FString("SUCCESS");
  }
 
  FTransform UAssimpFunctionLibrary::aiMatToTransform(aiMatrix4x4 NodeTransform)

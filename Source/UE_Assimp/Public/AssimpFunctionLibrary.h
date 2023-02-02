@@ -39,6 +39,8 @@ UFUNCTION(BlueprintCallable)
  static void ImportScenesAsync(TArray<FString> InFilenames,UObject* ParentObject,FOnProgressUpdated OnProgressUpdated,FOnImportSceneComplete OnImportSceneComplete);
  UFUNCTION(BlueprintCallable)
  static void ImportScenes(TArray<FString> InFilenames,UObject* ParentObject,TArray<UAIScene*>& Scenes);
+ UFUNCTION(BlueprintCallable)
+ static FString ExportMesh(FString Filename, TArray<FVector> Vertices, TArray<int32> Triangles, TArray<FVector> Normals, TArray<FVector2D> UVs);
  static FTransform aiMatToTransform(aiMatrix4x4 NodeTransform);
 
 
