@@ -299,7 +299,7 @@ if(NumOfThreads==0)
  		const struct aiScene* scene = aiImportFile( TCHAR_TO_UTF8( *FileName),
 	aiProcess_CalcTangentSpace       |
 	aiProcess_Triangulate            |
-	aiProcess_JoinIdenticalVertices  |
+	//aiProcess_JoinIdenticalVertices  |
 	aiProcess_SortByPType|
 	aiProcess_FlipUVs);
  		
