@@ -82,7 +82,8 @@ void UAIMesh::GetMeshDataForProceduralMesh(TArray<FVector>& Vertices, TArray<int
 	
 	for (unsigned int Index=0;Index<Mesh->mNumVertices;Index++)
 	{
-		Normals[Index]= ToVector(Mesh->mNormals[Index]);
+		if (Mesh->HasNormals())
+			Normals[Index]= ToVector(Mesh->mNormals[Index]);
 		Vertices[Index]=ToVectorCM(Mesh->mVertices[Index]);
 		if (Mesh->HasTangentsAndBitangents())
 			Tangents[Index].TangentX=ToVector(Mesh->mTangents[Index]);
