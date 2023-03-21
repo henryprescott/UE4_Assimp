@@ -390,20 +390,21 @@ FString UAssimpFunctionLibrary::ExportMesh(FString Filename, TArray<FVector> Ver
 
  	try
 	{
-		const aiScene *sc = importer.ReadFile("C:/Users/Henry/Documents/Git/POC/Plugins/UE4_Assimp/Source/ThirdParty/UE_AssimpLibrary/assimp/test/models/OBJ/box.obj", aiProcess_ValidateDataStructure);
- 		
-		aiScene *exportScene;
-		aiCopyScene(sc, &exportScene);
+		//const aiScene *sc = importer.ReadFile("C:/Users/Rob/Documents/POC/Plugins/UE4_Assimp/Source/ThirdParty/UE_AssimpLibrary/assimp/test/models/OBJ/box.obj", aiProcess_ValidateDataStructure);
+ 	//	
+		//aiScene *exportScene;
+		//aiCopyScene(sc, &exportScene);
 
- 		exportScene->mMeshes = new aiMesh * [1] { mesh };
- 		
-		aiNode *oldroot = exportScene->mRootNode;
-		exportScene->mRootNode = new aiNode();
-		exportScene->mRootNode->addChildren(1, &oldroot);
+ 	//	exportScene->mMeshes = new aiMesh * [1] { mesh };
+ 	//	
+		//aiNode *oldroot = exportScene->mRootNode;
+		//exportScene->mRootNode = new aiNode();
+		//exportScene->mRootNode->addChildren(1, &oldroot);
 
- 		FString AbsoluteFilePath = "C:/Users/Henry/Documents/Git/POC/Binaries/Win64/" + Filename + ".stl";
+ 		FString AbsoluteFilePath = "C:/Users/Rob/Documents/POC/Binaries/Win64/" + Filename + ".stl";
+		
  		
-		exporter.Export(exportScene, "stl", TCHAR_TO_ANSI(*AbsoluteFilePath));// != AI_SUCCESS;		
+		exporter.Export(out, "stl", TCHAR_TO_UTF8(*AbsoluteFilePath));// != AI_SUCCESS;		
 	}
 	catch (...)
 	{
