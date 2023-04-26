@@ -388,8 +388,8 @@ FString UAssimpFunctionLibrary::ExportMesh(FString Filename, TArray<FVector> Ver
     Assimp::Exporter exporter;
 	Assimp::Importer importer;
 
- 	try
-	{
+ //	try
+	//{
 		//const aiScene *sc = importer.ReadFile("C:/Users/Rob/Documents/POC/Plugins/UE4_Assimp/Source/ThirdParty/UE_AssimpLibrary/assimp/test/models/OBJ/box.obj", aiProcess_ValidateDataStructure);
  	//	
 		//aiScene *exportScene;
@@ -405,11 +405,11 @@ FString UAssimpFunctionLibrary::ExportMesh(FString Filename, TArray<FVector> Ver
 		
  		
 		exporter.Export(out, "stl", TCHAR_TO_UTF8(*AbsoluteFilePath));// != AI_SUCCESS;		
-	}
-	catch (...)
-	{
-		return FString(exporter.GetErrorString());
-	}
+	//}
+	//catch (...)
+	//{
+	//	return FString(exporter.GetErrorString());
+	//}
 	
 		 
 
