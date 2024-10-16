@@ -44,8 +44,8 @@ public class UE_AssimpLibrary : ModuleRules
 			string BinaryFolder=BinFolder(Target);
 			Directory.CreateDirectory(BinaryFolder);
 
-			string AssimpDll = Path.Combine(ModuleDirectory, "assimp\\build\\x64\\bin\\Release\\assimp-vc141-mt.dll");
-			string BinPath =Path.Combine(ModuleDirectory, BinaryFolder, "assimp-vc141-mt.dll");
+			string AssimpDll = Path.Combine(ModuleDirectory, "assimp\\build\\x64\\bin\\Release\\assimp-vc143-mt.dll");
+			string BinPath =Path.Combine(ModuleDirectory, BinaryFolder, "assimp-vc143-mt.dll");
 			
 			System.Console.WriteLine("------- AssimpDll path : {0}", AssimpDll);
 
@@ -60,10 +60,10 @@ public class UE_AssimpLibrary : ModuleRules
 		 	CopyFile(AssimpDll,BinPath);
 			// Ensure that the DLL is staged along with the executable
 
-			// VC141
+			// VC143
 			// Add the import library
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "assimp\\build\\x64\\lib\\Release\\assimp-vc141-mt.lib"));
-			RuntimeDependencies.Add("$(TargetOutputDir)/assimp-vc141-mt.dll", AssimpDll);
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "assimp\\build\\x64\\lib\\Release\\assimp-vc143-mt.lib"));
+			RuntimeDependencies.Add("$(TargetOutputDir)/assimp-vc143-mt.dll", AssimpDll);
 
 			
 			PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"assimp\\include"));
