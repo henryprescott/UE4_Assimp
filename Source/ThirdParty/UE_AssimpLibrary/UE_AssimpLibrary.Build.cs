@@ -80,7 +80,7 @@ public class UE_AssimpLibrary : ModuleRules
 				new string[]
 				{
 					"Core",
-					"GeometricObjects",
+                    "GeometryCore",
 					"DynamicMesh",
 					"ProceduralMeshComponent",		
 				}
